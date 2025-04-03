@@ -1,11 +1,11 @@
 // @flow strict
 
 import * as React from 'react';
+import Image from 'next/image';
 
 function ProjectCard({ project }) {
-
   return (
-    <div className="from-[#0d1224] border-[#1b2c68a0] relative rounded-lg border bg-gradient-to-r to-[#0a0d37] w-full">
+    <div className="from-[#0d1224] border-[#1b2c68a0] relative rounded-lg border bg-gradient-to-r to-[#0a0d37] w-full overflow-hidden">
       <div className="flex flex-row">
         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-pink-500 to-violet-600"></div>
         <div className="h-[1px] w-full bg-gradient-to-r from-violet-600 to-transparent"></div>
@@ -16,53 +16,51 @@ function ProjectCard({ project }) {
           <div className="h-2 w-2 lg:h-3 lg:w-3 rounded-full bg-orange-400"></div>
           <div className="h-2 w-2 lg:h-3 lg:w-3 rounded-full bg-green-200"></div>
         </div>
-        <p className="text-center ml-3 text-[#16f2b3] text-base lg:text-xl">
-          {project.name}
+        <p className="text-center ml-10 text-[#16f2b3] text-base lg:text-xl">
+          {project.name || 'Project Name'}
         </p>
       </div>
-      <div className="overflow-hidden border-t-[2px] border-indigo-900 px-4 lg:px-8 py-4 lg:py-8">
-        <code className="font-mono text-xs md:text-sm lg:text-base">
-          <div className="blink">
-            <span className="mr-2 text-pink-500">const</span>
-            <span className="mr-2 text-white">project</span>
-            <span className="mr-2 text-pink-500">=</span>
-            <span className="text-gray-400">{'{'}</span>
+      <div className="overflow-hidden border-t-[2px] border-indigo-900 p-4 lg:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+          <div className="relative w-full aspect-video bg-gray-800 rounded-lg overflow-hidden">
+            {project.image ? (
+              <Image
+                src={project.image}
+                alt={project.name || 'Project image'}
+                layout="fill"
+                objectFit="cover"
+                className="transition-transform duration-300 hover:scale-110"
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-400">
+                <span>Image placeholder</span>
+              </div>
+            )}
           </div>
-          <div>
-            <span className="ml-4 lg:ml-8 mr-2 text-white">name:</span>
-            <span className="text-gray-400">{`'`}</span>
-            <span className="text-amber-300">{project.name}</span>
-            <span className="text-gray-400">{`',`}</span>
+          <div className="flex flex-col justify-between">
+            <div>
+              <h3 className="text-xl text-white font-medium mb-2">{project.name || 'Project Name'}</h3>
+              <p className="text-gray-300 mb-4">{project.description || 'Project description will appear here. Add details about your art project, client, goals, and creative process.'}</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.tools && project.tools.length > 0 ? (
+                  project.tools.map((tool, index) => (
+                    <span key={index} className="px-3 py-1 bg-[#1a1443] text-[#16f2b3] rounded-full text-xs">
+                      {tool}
+                    </span>
+                  ))
+                ) : (
+                  <span className="px-3 py-1 bg-[#1a1443] text-[#16f2b3] rounded-full text-xs">Tools used</span>
+                )}
+              </div>
+            </div>
+            <div className="mt-2">
+              <p className="text-pink-500 font-medium">
+                <span className="text-gray-400">Role: </span>
+                {project.role || 'Art Director'}
+              </p>
+            </div>
           </div>
-
-          <div className="ml-4 lg:ml-8 mr-2">
-            <span className=" text-white">tools:</span>
-            <span className="text-gray-400">{` ['`}</span>
-            {
-              project.tools.map((tag, i) => (
-                <React.Fragment key={i}>
-                  <span className="text-amber-300">{tag}</span>
-                  {
-                    project.tools?.length - 1 !== i &&
-                    <span className="text-gray-400">{`', '`}</span>
-                  }
-                </React.Fragment>
-              ))
-            }
-            <span className="text-gray-400">{"],"}</span>
-          </div>
-          <div>
-            <span className="ml-4 lg:ml-8 mr-2 text-white">myRole:</span>
-            <span className="text-orange-400">{project.role}</span>
-            <span className="text-gray-400">,</span>
-          </div>
-          <div className="ml-4 lg:ml-8 mr-2">
-            <span className="text-white">Description:</span>
-            <span className="text-cyan-400">{' ' + project.description}</span>
-            <span className="text-gray-400">,</span>
-          </div>
-          <div><span className="text-gray-400">{`};`}</span></div>
-        </code>
+        </div>
       </div>
     </div>
   );
