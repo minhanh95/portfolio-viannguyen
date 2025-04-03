@@ -2,8 +2,8 @@
 
 import { skillsData } from "@/utils/data/skills";
 import { skillsImage } from "@/utils/skill-image";
+import { DynamicMarquee } from "@/app/components/dynamic";
 import Image from "next/image";
-import Marquee from "react-fast-marquee";
 
 function Skills() {
   return (
@@ -27,7 +27,7 @@ function Skills() {
       </div>
 
       <div className="w-full my-12">
-        <Marquee
+        <DynamicMarquee
           gradient={false}
           speed={80}
           pauseOnHover={true}
@@ -62,7 +62,7 @@ function Skills() {
               </div>
             </div>
           ))}
-        </Marquee>
+        </DynamicMarquee>
       </div>
     </div>
   );
